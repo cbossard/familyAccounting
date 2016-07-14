@@ -1,0 +1,16 @@
+<ion-view style="" class=" " id="page2" title="My expenses">
+    <ion-content class="has-header" padding="true">
+        <ion-list class=" " id="myExpensesList">
+            <ion-item style="" class=" positive  " ng-repeat="expense in expenses">
+              <button class="button button-assertive" id="myExpense-delete" ng-click="deleteExpense({{expense}})">
+                <i class="icon ion-close-round"></i>
+              </button>
+
+              {{expense.amount | currency:"€"}}
+              <span class="item-note">{{expense.label}}</span>
+
+            </ion-item>
+        </ion-list>
+        <button class=" button button-positive  button-block icon ion-android-add-circle " id="myExpenses-button1" ng-click="newExpense()">  Add expense</button>
+    </ion-content>
+</ion-view>
