@@ -23,7 +23,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       StatusBar.styleDefault();
     }
 
-    $rootScope.baseUrl = 'https://familyaccounting-4a347.firebaseio.com/';
+    $rootScope.baseUrl = 'https://familyaccounting-4a347.firebaseio.com/expenses';
 
     $rootScope.show = function(text) {
       $rootScope.loading = $ionicLoading.show({

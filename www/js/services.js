@@ -2,11 +2,16 @@ angular.module('app.services', [])
 
 .factory('Expenses', function ($firebaseArray, $rootScope) {
     // Might use a resource here that returns a JSON array
-  var expenses = $firebaseArray(new Firebase($rootScope.baseUrl).child('expenses'));
+  var expenses = $firebaseArray(new Firebase($rootScope.baseUrl));
 
   return {
      all: function () {
          return expenses;
+     },
+     allFromUser: function(userId){
+        console.log("Retrieve expenses from user "+userId);
+        var baseRef = new Firebase($rootScope.baseUrl);
+       return $firebaseArray(baseRef.orderByChild("user").equalTo(userId));
      },
      get: function (expenseId) {
          // Simple index lookup
@@ -18,14 +23,20 @@ angular.module('app.services', [])
        })
      },
      delete: function(expenseId){
+
+         var onComplete = function(error) {
+          if (error) {
+            console.log('Deletion failed');
+          } else {
+            console.log('Deletion succeeded');
+          }
+        };
+
         console.log("Expense to delete : " + expenseId);
-       return expenses.$remove(expenseId);
-/*// build the FB endpoint to the item in movies collection
-var deleteExpenseRef = ExpensesService.buildEndPoint(expenseToDelete.$id)
-console.log(deleteExpenseRef);
-var result = deleteExpenseRef.remove();
-console.log(result);
-//Expenses.delete();*/
+
+        var itemRef = new Firebase($rootScope.baseUrl + "/" + expenseId);
+
+        itemRef.remove(onComplete);
 
      }
 

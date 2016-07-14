@@ -3,7 +3,7 @@ angular.module('app.controllers', [])
 .controller('myExpensesCtrl', function($rootScope, $scope, $ionicModal, Expenses, ExpensesService) {
 
   $rootScope.show("Please wait... Processing");
-  $scope.expenses = Expenses.all();
+  $scope.expenses = Expenses.allFromUser("Annabelle");
 
   $rootScope.hide();
 
@@ -22,7 +22,8 @@ angular.module('app.controllers', [])
       var newExpense = {
         user: "Annabelle",
         amount: expense.amount,
-        label: expense.label
+        label: expense.label,
+        date: Date.now()
       };
 
       Expenses.addExpense(newExpense);
@@ -34,29 +35,11 @@ angular.module('app.controllers', [])
 
     $scope.deleteExpense = function(expenseToDelete){
 
-
-
        var response = confirm("Are certain about removing \"" + expenseToDelete.label + "\" from the list?");
        if (response == true) {
 
-         $rootScope.show("Please wait... Deleting from List");
-
-         var itemRef = new Firebase($rootScope.baseUrl + expenseToDelete.$id);
-
-      /*   Expenses.child(key).remove(function(error) {
-               if (error) {
-                 $rootScope.hide();
-                 $rootScope.notify('Oops! something went wrong. Try again later');
-               } else {
-                 $rootScope.hide();
-                 $rootScope.notify('Successfully deleted');
-               }
-             }
-
-*/
-
+         Expenses.delete(expenseToDelete.$id);
         }
-
 
     };
 
